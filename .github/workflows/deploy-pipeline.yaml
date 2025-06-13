@@ -44,3 +44,18 @@ jobs:
         with:
           name: zipped-bundle
           path: ${{ github.sha }}.zip
+  
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: comnoco/create-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release From ${{ github.run_number }}
+          body: New Release for ${{ gitlab.sha }}. Release note on the documentation site.
+          draft: false
+          prerelease: false
